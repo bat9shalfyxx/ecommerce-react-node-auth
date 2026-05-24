@@ -1,0 +1,19 @@
+{
+    "name": "ecommerce",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "lint": "biome check --write .",
+        "lint:check": "biome check .",
+        "format": "biome format --write .",
+        "format:check": "biome format ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.33.4",
+    "devDependencies": {
+        "@biomejs/biome": "^2.4.15"
+    }
+}
