@@ -58,8 +58,8 @@ Cart.belongsTo(User);
 Cart.belongsToMany(Game, { through: CartGame });
 Game.belongsToMany(Cart, { through: CartGame });
 
-Game.hasOne(SystemRequirements);
-SystemRequirements.belongsTo(Game);
+Game.hasOne(SystemRequirements, { foreignKey: 'game_id', as: 'sysreqs' });
+SystemRequirements.belongsTo(Game, { foreignKey: 'game_id' });
 
 Game.belongsToMany(Category, { through: GameCategories });
 Category.belongsToMany(Game, { through: GameCategories });

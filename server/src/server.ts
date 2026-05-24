@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import path from 'node:path';
 import cors from 'cors';
 import express from 'express';
 import fileUpload from 'express-fileupload';
@@ -16,9 +17,11 @@ const ON_START_MESSAGE = `
 \x1b[33m\x1b[1m🔌 Port:\x1b[0m       \x1b[36m${PORT}\x1b[0m
 \x1b[33m\x1b[1m🌐 URL:\x1b[0m        \x1b[36mhttp://localhost:${PORT}\x1b[0m
 \x1b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\x1b[0m`;
+const pathToImg = path.resolve(process.cwd(), 'src', 'assets', 'img');
 
 const app = express();
 app.use(cors());
+app.use(express.static(pathToImg));
 app.use(fileUpload({}));
 app.use(express.json());
 app.use('/api', router);
@@ -31,7 +34,7 @@ app.get('/', (req, res) => {
 const startServer = async () => {
     try {
         await sequelize.authenticate();
-        await sequelize.sync();
+        await sequelize.sync({ force: true });
 
         app.listen(PORT, () => {
             console.log(ON_START_MESSAGE);
