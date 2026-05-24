@@ -3,9 +3,9 @@ import sequelize from '../config/database.js';
 
 const User = sequelize.define('user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    email: { type: DataTypes.STRING, unique: true },
-    username: { type: DataTypes.STRING, unique: true },
-    password: { type: DataTypes.STRING },
+    email: { type: DataTypes.STRING, unique: true, allowNull: false },
+    username: { type: DataTypes.STRING, allowNull: false },
+    password: { type: DataTypes.STRING, allowNull: false },
     role: { type: DataTypes.STRING, defaultValue: 'USER' },
 });
 
@@ -52,8 +52,8 @@ const GameGenres = sequelize.define('game_genres', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-User.hasOne(Cart);
-Cart.belongsTo(User);
+User.hasOne(Cart, { foreignKey: 'user_id' });
+Cart.belongsTo(User, { foreignKey: 'user_id' });
 
 Cart.belongsToMany(Game, { through: CartGame });
 Game.belongsToMany(Cart, { through: CartGame });

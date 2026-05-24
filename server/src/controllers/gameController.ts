@@ -11,31 +11,36 @@ class GameController {
             let { sysreqs } = req.body;
 
             if (!title || !price || !description) {
-                return next(ApiError.badRequest('Missing required fields: title, price, description, sysreq'));
+                return next(ApiError.badRequest('Missing required fields: title, price, description'));
             }
 
             const imgReq = req as FileRequest;
             const img = imgReq.files.img;
             const fileName = `game${crypto.randomUUID()}.webp`;
             const filePath = path.resolve(process.cwd(), 'src', 'assets', 'img', fileName);
-            await img.mv(filePath);
 
             const game = await Game.create({ title, price, description, img: fileName });
-            const gameData = game.toJSON();
 
-            sysreqs = JSON.parse(sysreqs);
-            SystemRequirements.create({
+            if (typeof sysreqs === 'string') {
+                sysreqs = JSON.parse(sysreqs);
+            } else {
+                return next(ApiError.badRequest('Invalid system requirements format'));
+            }
+
+            if (game) await img.mv(filePath);
+
+            await SystemRequirements.create({
                 os: sysreqs.os,
                 processor: sysreqs.processor,
                 graphics: sysreqs.graphics,
                 storage: sysreqs.storage,
                 memory_RAM: sysreqs.memory_RAM,
-                game_id: gameData.id,
+                game_id: game.toJSON().id,
             });
 
             return res.json(game);
-        } catch (e) {
-            return next(ApiError.internal(`Failed to create game: ${String(e)}`));
+        } catch (err) {
+            return next(ApiError.internal(`Failed to create game: ${err as Error}`));
         }
     }
 
@@ -50,9 +55,8 @@ class GameController {
 
             const games = await Game.findAll();
             return res.json(games);
-        } catch (error) {
-            const err = error as Error;
-            next(ApiError.internal(`Failed to fetch games: ${err.message}`));
+        } catch (e) {
+            return next(ApiError.internal(`Failed to fetch games: ${e as Error}`));
         }
     }
 
@@ -70,9 +74,8 @@ class GameController {
             }
 
             return res.json(game);
-        } catch (error) {
-            const err = error as Error;
-            next(ApiError.internal(`Failed to fetch game: ${err.message}`));
+        } catch (e) {
+            return next(ApiError.internal(`Failed to fetch game: ${e as Error}`));
         }
     }
 }

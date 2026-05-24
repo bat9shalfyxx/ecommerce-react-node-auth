@@ -20,13 +20,13 @@ const ON_START_MESSAGE = `
 const pathToImg = path.resolve(process.cwd(), 'src', 'assets', 'img');
 
 const app = express();
+
 app.use(cors());
 app.use(express.static(pathToImg));
 app.use(fileUpload({}));
 app.use(express.json());
 app.use('/api', router);
 app.use(errorHandler);
-
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'SERVER IS WORKING' });
 });
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 const startServer = async () => {
     try {
         await sequelize.authenticate();
-        await sequelize.sync({ force: true });
+        await sequelize.sync();
 
         app.listen(PORT, () => {
             console.log(ON_START_MESSAGE);
