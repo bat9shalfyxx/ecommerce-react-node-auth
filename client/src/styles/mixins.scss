@@ -1,0 +1,106 @@
+@import "./variables.scss";
+
+// Flexbox центрирование
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Flexbox между
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Flexbox колонка
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Адаптивный контейнер
+@mixin container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// Текст с усечением
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Мультистрочное усечение
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Неоновая подсветка
+@mixin neon-glow($color: $primary) {
+  box-shadow:
+    0 0 10px $color,
+    0 0 20px $color,
+    0 0 30px $color;
+}
+
+// Карточка
+@mixin card {
+  background: $bg-card;
+  border-radius: $border-radius-lg;
+  padding: 20px;
+  transition:
+    transform $transition-normal,
+    box-shadow $transition-normal;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// Адаптивный медиа-запрос
+@mixin mobile {
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: calc($breakpoint-mobile + 1)) and (max-width: calc($breakpoint-desktop - 1)) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+// Стилизация скроллбара
+@mixin custom-scroll {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $bg-dark;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary;
+    border-radius: 4px;
+
+    &:hover {
+      background: $primary-light;
+    }
+  }
+}
