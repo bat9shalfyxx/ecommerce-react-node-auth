@@ -1,11 +1,6 @@
-@import "./variables.scss";
-@import "./mixins.scss";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@use './index';
+@import 'modern-normalize/modern-normalize.css';
 
 html {
   scroll-behavior: smooth;
@@ -20,7 +15,6 @@ body {
   min-height: 100vh;
 }
 
-// Геймерский курсор (опционально)
 // cursor: url('/cursor.png'), auto;
 
 a {
@@ -38,13 +32,13 @@ button {
   font-family: inherit;
 }
 
-// Контейнер приложения
 .app-container {
+  margin: 0 auto;
+  max-width: 1920px;
   min-height: 100vh;
   background: $gradient-dark;
 }
 
-// Анимации
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -75,7 +69,6 @@ button {
   }
 }
 
-// Утилиты
 .fade-in {
   animation: fadeIn $transition-normal ease-out;
 }
