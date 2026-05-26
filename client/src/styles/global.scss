@@ -32,13 +32,6 @@ button {
   font-family: inherit;
 }
 
-.app-container {
-  margin: 0 auto;
-  max-width: 1920px;
-  min-height: 100vh;
-  background: $gradient-dark;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
